@@ -7,6 +7,7 @@ LABEL maintainer="Hu Chuan-Peng <hcp4715@hotmail.com>"
 ENV CONDA_AUTO_UPDATE_CONDA=false \
     PATH="/opt/conda/bin:$PATH"
 
+USER root
 RUN apt-get update && apt-get install -y graphviz
 # Create a new conda environment and install packages
 RUN conda install -y \
@@ -24,7 +25,8 @@ RUN rm -rf /home/jovyan/.cache && \
     fix-permissions /home/jovyan
 
 # Set the working directory
-WORKDIR /home/jovyan/work
+USER $NB_UID
+WORKDIR $HOME
 
 # Expose the default Jupyter notebook port
 EXPOSE 8888
