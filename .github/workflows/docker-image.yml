@@ -1,4 +1,4 @@
-name: NNU-Bayesian-Image
+name: PyBayesian
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      HDDM_VERSION: nnub:2024v1
+      NAME_VERSION: pybayesian:2024v1
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -21,10 +21,10 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     - name: push amd64
-      run: docker buildx build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.HDDM_VERSION}}-amd64 -f Dockerfile . --push
+      run: docker buildx build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.NAME_VERSION}}-amd64 -f Dockerfile . --push
     - name: push arm64
-      run: docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.HDDM_VERSION}}-arm64 -f Dockerfile . --push
+      run: docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.NAME_VERSION}}-arm64 -f Dockerfile . --push
     - name: Build the Combined Manifest
-      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.HDDM_VERSION}} -f Dockerfile . --push
+      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{env.NAME_VERSION}} -f Dockerfile . --push
     - name: Build the Newest Manifest
-      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/nnub:latest -f Dockerfile . --push
+      run: docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/pybayesian:latest -f Dockerfile . --push
